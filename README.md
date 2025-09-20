@@ -1,13 +1,19 @@
 @"
 # Telco Customer Churn Prediction
 
-Bu proje, Kaggle Telco Customer Churn verisiyle müşteri kaybını (churn) tahmin eder.
-Veri temizleme, EDA, makine öğrenmesi pipeline (OneHotEncoder + StandardScaler), Logistic Regression ve Random Forest modelleri ve özellik önemlerini içerir.
 
-## 🔗 Veri Kaynağı
-- Kaggle: Telco Customer Churn (CSV)
+This project focuses on predicting **customer churn** using the Kaggle Telco Customer Churn dataset.  
+The workflow covers **data cleaning, exploratory data analysis (EDA), machine learning modeling (Logistic Regression & Random Forest), and feature importance analysis**.
 
-## 🗂️ Proje Yapısı
+---
+
+## 📊 Dataset
+- **Source:** [Kaggle – Telco Customer Churn](https://www.kaggle.com/blastchar/telco-customer-churn)
+- **Rows:** 7,043 customers  
+- **Columns:** 21 features (demographics, contract, services, charges) + target `Churn`
+
+## 🗂️ Project Structure
+
 churn-project/
 ├─ data/
 │ ├─ raw/
@@ -19,101 +25,76 @@ churn-project/
 ├─ requirements.txt
 └─ README.md
 
-r
-Kodu kopyala
+📊 Key Findings from EDA
 
-## ⚙️ Kurulum
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-pip install -r requirements.txt
-🚀 Çalıştırma
-Veri temizleme
+Churn Rate: ≈ 26.5%
 
-bash
-Kodu kopyala
-python notebooks/01_load_data.py
-EDA (grafikler)
+Contract: Month-to-month contracts have the highest churn, while two-year contracts have the lowest.
 
-bash
-Kodu kopyala
-python notebooks/02_eda.py
-Modelleme (LR & RF, metrikler ve feature importance)
+Tenure: New customers are more likely to churn.
 
-bash
-Kodu kopyala
-python notebooks/03_model.py
-📊 EDA Özet Bulgular
-Churn oranı ≈ %26.5
+Monthly Charges: Higher monthly charges correlate with higher churn.
 
-Contract: Month-to-month → en yüksek churn; Two year → en düşük
+Payment Method: Customers paying via Electronic Check churn more.
 
-tenure: düşük olduğunda churn artıyor
+🤖 Models & Results
 
-MonthlyCharges: yükseldikçe churn artabiliyor
-
-PaymentMethod: Electronic check tarafında churn daha yüksek
-
-🤖 Modeller & Sonuçlar (örnek)
 Logistic Regression
 
-Accuracy ≈ 0.79
+Accuracy: ~79%
 
-Churn(1) recall ≈ 0.54
+Recall (Churn=1): ~54%
 
 Random Forest
 
-Accuracy ≈ 0.79
+Accuracy: ~79%
 
-Churn(1) recall ≈ 0.50
+Recall (Churn=1): ~50%
 
-Not: Bu veri setinde LR ve RF benzer performans verdi. Üretimde recall’un artırılması tercih edilebilir.
+⚠️ Note: Accuracy is high, but recall for churn cases is moderate, meaning some churned customers are missed.
 
-⭐ Özellik Önemleri (RF — Top 10)
-TotalCharges, tenure, MonthlyCharges, Contract_Month-to-month, Contract_Two year, OnlineSecurity_No, TechSupport_No, PaymentMethod_Electronic check, InternetService_Fiber optic, OnlineBackup_No
+⭐ Feature Importance (Random Forest)
 
-🧭 Yorum & Öneriler (iş açısından)
-Riskli profil: Aylık sözleşmeli, kısa süreli, yüksek ücretli, “electronic check” ödeme yapan, ek güvenlik/destek hizmeti almayan müşteriler.
+Top predictors influencing churn:
 
-Aksiyonlar: Sadakat/indirim kampanyaları, uzun dönem sözleşme teşviki, paket bundle (security/tech support), yüksek faturalılara özel teklif.
+TotalCharges
 
-🔮 Geliştirme Fikirleri
-Sınıf dengesizliği: class_weight / SMOTE
+tenure
 
-Boosting modeller: XGBoost / LightGBM
+MonthlyCharges
 
-Hiperparametre arama: GridSearchCV / RandomizedSearchCV
+Contract (Month-to-month)
 
-Eşik ayarı: Recall’u yükseltmek için karar eşiğini optimize etme
+Contract (Two year)
 
-Model servisleştirme: Flask/Django API ile canlı tahmin
+OnlineSecurity (No)
 
-📝 Lisans
-Açık kaynak dataset lisansı Kaggle sayfasından kontrol edilmelidir.
-"@ | Out-File -Encoding UTF8 -FilePath README.md
+TechSupport (No)
 
-yaml
-Kodu kopyala
+PaymentMethod (Electronic Check)
 
----
+InternetService (Fiber optic)
 
-# 2) requirements.txt ve .gitignore oluştur
+OnlineBackup (No)
 
-```powershell
-@"
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-"@ | Out-File -Encoding UTF8 -FilePath requirements.txt
+📌 Business Insights
 
-@"
-venv/
-__pycache__/
-*.pyc
-data/raw/
-.ipynb_checkpoints/
-.DS_Store
-"@ | Out-File -Encoding UTF8 -FilePath .gitignore
+High-risk customers: short-tenure, month-to-month contracts, high monthly charges, Electronic Check payments, no extra services.
+
+Recommendations:
+
+Offer loyalty discounts for new customers.
+
+Encourage long-term contracts.
+
+Bundle extra services (security, tech support) to reduce churn risk.
+
+🔮 Possible Improvements
+
+Handle class imbalance with SMOTE or threshold tuning.
+
+Try advanced models: XGBoost, LightGBM, Gradient Boosting.
+
+Perform hyperparameter optimization (GridSearchCV, RandomizedSearchCV).
+
+Deploy as an API using Flask/Django for real-time predictions.
