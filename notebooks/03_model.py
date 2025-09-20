@@ -76,8 +76,8 @@ plt.title('Confusion Matrix')
 plt.show()
 
 
-# 11) Özellik isimlerini çıkar (OneHotEncoder sonrası genişlediği için)
-# Pipeline içinden erişelim
+#OneHotEncoder sonrası genişlediği için : özellik isimlerini çıkar
+#pipeline içinden eriş
 ohe = model.named_steps["preprocessor"].named_transformers_["cat"]
 cat_features = ohe.get_feature_names_out(cat_cols)
 all_features = np.concatenate([cat_features, num_cols])
