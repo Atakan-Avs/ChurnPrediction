@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns  # görselleri kolaylaştırmak için
 from pathlib import Path
 
-# Veriyi yükle
+#veri yükle
 df = pd.read_csv(Path("data/processed/telco_clean.csv"))
 
 print("Şekil:", df.shape)
@@ -21,7 +21,7 @@ plt.xlabel("Churn")
 plt.ylabel("Adet")
 plt.show()
 
-# 3) Kategorik-sayısal kolon listeleri
+#kategorik-sayısal kolon listeleri
 cat_cols = df.select_dtypes(include=["object"]).columns.tolist()
 num_cols = df.select_dtypes(include=["int64","float64","int32","float32"]).columns.tolist()
 if "Churn" in num_cols:  # hedefi num_cols listesinden çıkar
@@ -31,7 +31,7 @@ print("\nKategorik kolonlar:", cat_cols)
 print("Sayısal kolonlar:", num_cols)
 
 
-# 4) Kontrat tipine göre churn
+#kontrat tipine göre churn
 print("\nKontrat tipine göre churn (%):")
 print((df.groupby("Contract")["Churn"].mean()*100).sort_values(ascending=False))
 
@@ -42,7 +42,7 @@ plt.xlabel("Contract")
 plt.ylabel("Churn Oranı")
 plt.show()
 
-# 5) Ödeme yöntemine göre churn
+#ödeme yöntemine göre churn
 print("\nÖdeme yöntemine göre churn (%):")
 print((df.groupby("PaymentMethod")["Churn"].mean()*100).sort_values(ascending=False))
 
@@ -78,7 +78,7 @@ plt.show()
 
 
 
-# 8) Tenure (kaç aydır müşteri) churn ilişkisi
+#tenure (kaç aydır müşteri) churn ilişkisi
 plt.figure()
 sns.boxplot(data=df, x="Churn", y="tenure")
 plt.title("Churn'a Göre Tenure Dağılımı")
@@ -86,7 +86,7 @@ plt.xlabel("Churn")
 plt.ylabel("tenure (ay)")
 plt.show()
 
-# 9) Tenure bin'leyip oran bakmak (daha açıklayıcı)
+#tenure bin'le (daha açıklayıcı)
 bins = [0, 6, 12, 24, 48, 72]
 labels = ["0-6", "7-12", "13-24", "25-48", "49-72"]
 df["tenure_bin"] = pd.cut(df["tenure"], bins=bins, labels=labels, right=True, include_lowest=True)
@@ -102,7 +102,7 @@ plt.ylabel("Churn Oranı")
 plt.show()
 
 
-# 10) Sade bir korelasyon ısı haritası (sayısal kolonlar)
+#sade bir korelasyon ısı haritası (sayısal kolonlar)
 import numpy as np
 
 corr = df[["tenure", "MonthlyCharges", "TotalCharges", "Churn"]].corr()
